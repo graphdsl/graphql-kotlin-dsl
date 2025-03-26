@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/demoapps/blog-demo" name="blog-demo">
+                <projects>
+                  <project path="$PROJECT_DIR$/demoapps/blog-demo" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/build-logic" name="build-logic">
+                <projects>
+                  <project path="$PROJECT_DIR$/build-logic" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/included-builds/core" name="core">
+                <projects>
+                  <project path="$PROJECT_DIR$/cli" />
+                  <project path="$PROJECT_DIR$/codegen" />
+                  <project path="$PROJECT_DIR$/included-builds/core" />
+                  <project path="$PROJECT_DIR$/mapper" />
+                  <project path="$PROJECT_DIR$/schema" />
+                  <project path="$PROJECT_DIR$/shared" />
+                  <project path="$PROJECT_DIR$/utils" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/gradle-plugins" name="gradle-plugins">
+                <projects>
+                  <project path="$PROJECT_DIR$/gradle-plugins" />
+                  <project path="$PROJECT_DIR$/gradle-plugins/common" />
+                  <project path="$PROJECT_DIR$/gradle-plugins/graphdsl-plugin" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="ms-21" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/build-logic" />
+            <option value="$PROJECT_DIR$/cli" />
+            <option value="$PROJECT_DIR$/codegen" />
+            <option value="$PROJECT_DIR$/demoapps/blog-demo" />
+            <option value="$PROJECT_DIR$/gradle-plugins" />
+            <option value="$PROJECT_DIR$/gradle-plugins/common" />
+            <option value="$PROJECT_DIR$/gradle-plugins/graphdsl-plugin" />
+            <option value="$PROJECT_DIR$/included-builds/core" />
+            <option value="$PROJECT_DIR$/mapper" />
+            <option value="$PROJECT_DIR$/schema" />
+            <option value="$PROJECT_DIR$/shared" />
+            <option value="$PROJECT_DIR$/utils" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
