@@ -1,0 +1,38 @@
+type Query {
+    greeting: String
+    author(id: ID!): Author
+    post(id: ID!): Post
+    authors: [Author!]!
+    searchPosts(filter: PostFilterInput!): [Post!]!
+}
+
+type Mutation {
+    createPost(input: CreatePostInput!): Post
+    deletePost(id: ID!): Boolean
+}
+
+type Author {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    author: Author!
+    published: Boolean!
+}
+
+input PostFilterInput {
+    authorId: ID
+    titleContains: String
+    published: Boolean
+}
+
+input CreatePostInput {
+    title: String!
+    content: String!
+    authorId: ID!
+}
