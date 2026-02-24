@@ -29,6 +29,3 @@ includeBuild("gradle-plugins") {
         substitute(module("io.github.graphdsl:graphdsl-gradle-plugin")).using(project(":graphdsl-plugin"))
     }
 }
-
-// Demo applications
-includeBuild("demoapps/blog-demo")
