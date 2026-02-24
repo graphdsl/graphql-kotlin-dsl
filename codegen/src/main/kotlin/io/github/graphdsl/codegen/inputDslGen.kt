@@ -85,7 +85,6 @@ private class ScalarInputFieldModel(
     val kotlinType: String = run {
         fieldDef.kmType(JavaName(pkg).asKmName, baseTypeMapper)
             .kotlinTypeString
-            .replaceGlobalIdWithString()
             .simplifyKotlinType()
     }
 }

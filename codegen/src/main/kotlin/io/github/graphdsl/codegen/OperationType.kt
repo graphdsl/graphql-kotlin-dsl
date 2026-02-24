@@ -104,7 +104,6 @@ class OperationScalarArgModel(
     val kotlinType: String = run {
         argDef.kmType(JavaName(pkg).asKmName, baseTypeMapper)
             .kotlinTypeString
-            .replaceGlobalIdWithString()
             .simplifyKotlinType()
     }
 }

@@ -52,7 +52,7 @@ fun GraphDslSchema.TypeExpr.kmType(
                 -> KmVariance.OUT
 
                 GraphDslSchema.TypeDefKind.SCALAR -> {
-                    if (result.name == Km.ANY || result.name == baseTypeMapper.getGlobalIdType().asKmName) {
+                    if (result.name == Km.ANY) {
                         // JSON types map to kotlin/Any
                         KmVariance.OUT
                     } else {

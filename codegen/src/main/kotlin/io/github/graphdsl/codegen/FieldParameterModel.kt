@@ -38,18 +38,9 @@ class FieldParameterModel(
             // For scalars and enums, use the standard type mapping
             arg.kmType(JavaName(pkg).asKmName, baseTypeMapper)
                 .kotlinTypeString
-                .replaceGlobalIdWithString()
                 .simplifyKotlinType()
         }
     }
-}
-
-/**
- * Replaces GlobalID<T> types with String in type signatures.
- */
-fun String.replaceGlobalIdWithString(): String {
-    val globalIdPattern = Regex("""graphdsl\.api\.globalid\.GlobalID<[^>]+>""")
-    return this.replace(globalIdPattern, "String")
 }
 
 /**
