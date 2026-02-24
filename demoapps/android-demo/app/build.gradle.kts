@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("io.github.graphdsl.graphdsl-gradle-plugin") version "0.1.0"
+    id("io.github.graphdsl.graphdsl-gradle-plugin") version "0.1.1"
 }
 
 android {
