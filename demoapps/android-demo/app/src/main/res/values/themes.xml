@@ -1,0 +1,4 @@
+<resources>
+    <!-- Base theme for a Compose app — Compose handles its own Material theming -->
+    <style name="Theme.GraphDslDemo" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
