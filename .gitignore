@@ -40,3 +40,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Claude Code ###
+.claude/
+
+### Scripts ###
+rewrite-history.sh
+build-history.sh
