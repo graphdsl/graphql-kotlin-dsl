@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.24"
-    id("io.github.graphdsl.graphdsl-gradle-plugin")
+    id("io.github.graphdsl.graphdsl-gradle-plugin") version "0.1.0"
 }
 
 kotlin {
