@@ -4,6 +4,11 @@ plugins {
     id("io.github.graphdsl.graphdsl-gradle-plugin") version "0.1.1"
 }
 
+graphDsl {
+    packageName.set("io.github.graphdsl.android.graphql")
+    schemaDir.set("src/main/graphql")
+}
+
 android {
     namespace = "io.github.graphdsl.android"
     compileSdk = 34
@@ -43,10 +48,6 @@ android {
     }
 }
 
-graphDsl {
-    packageName.set("io.github.graphdsl.android.graphql")
-    schemaDir.set("src/main/graphql")
-}
 
 // Make Android Kotlin compile tasks depend on DSL generation
 tasks.configureEach {
