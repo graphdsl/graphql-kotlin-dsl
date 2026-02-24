@@ -57,11 +57,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config core.fileMode false
           git add VERSION
-          git commit -m "Release v${{ env.VERSION }}"
-          git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
+          git diff --cached --quiet || git commit -m "Release v${{ env.VERSION }}"
+          git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}" --force
           git push origin HEAD
-          git push origin "v${{ env.VERSION }}"
+          git push origin "v${{ env.VERSION }}" --force
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
