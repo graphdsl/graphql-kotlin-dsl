@@ -14,9 +14,7 @@ java {
 dependencies {
     implementation(project(":common"))
 
-    // The CLI module bundles all codegen dependencies (codegen, mapper, schema, shared, utils)
-    // Resolved to local projects via dependency substitution in the root settings
-    implementation(libs.graphdsl.cli)
+    implementation("io.github.graphdsl:cli:${project.version}")
 
     // Do NOT leak the Kotlin Gradle Plugin at runtime
     compileOnly(libs.kotlin.gradle.plugin)
