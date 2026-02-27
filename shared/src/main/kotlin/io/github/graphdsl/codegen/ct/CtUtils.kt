@@ -240,13 +240,17 @@ internal fun kmToJvmBoxedName(kmName: KmName): String =
         Km.ENUM -> "java/lang/Enum"
         Km.FLOAT -> "java/lang/Float"
         Km.INT -> "java/lang/Integer"
-        Km.LIST -> "java/util/List"
+        Km.LIST, Km.MUTABLE_LIST -> "java/util/List"
         Km.LONG -> "java/lang/Long"
         Km.MAP, Km.MUTABLE_MAP -> "java/util/Map"
         Km.SHORT -> "java/lang/Short"
         Km.STRING -> "java/lang/String"
         Km.UNIT -> kmName.toString() // identity
-        else -> kmName.toString().replace('.', '$')
+        else -> {
+            val s = kmName.toString()
+            if (s.startsWith("kotlin/Function")) s.replaceFirst("kotlin/", "kotlin/jvm/functions/")
+            else s.replace('.', '$')
+        }
     }
 
 private val KmType.jvmReturnSignature: SignatureAttribute.Type get() =

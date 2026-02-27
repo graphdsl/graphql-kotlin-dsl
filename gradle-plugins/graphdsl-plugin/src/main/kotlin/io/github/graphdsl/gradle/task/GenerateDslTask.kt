@@ -49,6 +49,10 @@ abstract class GenerateDslTask
     @get:Input
     abstract val packageName: Property<String>
 
+    /** Whether to generate bytecode directly instead of Kotlin source files. */
+    @get:Input
+    abstract val useBytecode: Property<Boolean>
+
     /** Output directory for generated Kotlin source files. */
     @get:OutputDirectory
     abstract val outputDirectory: DirectoryProperty
@@ -65,14 +69,17 @@ abstract class GenerateDslTask
             classpath = this@GenerateDslTask.classpath
             mainClass.set(this@GenerateDslTask.mainClass.get())
             argumentProviders.add {
-                listOf(
-                    "--schema_files",
-                    schemaFilesList.map(File::getAbsolutePath).sorted().joinToString(","),
-                    "--pkg_for_generated_classes",
-                    this@GenerateDslTask.packageName.get(),
-                    "--generated_directory",
-                    outputDirectory.get().asFile.absolutePath
-                )
+                buildList {
+                    add("--schema_files")
+                    add(schemaFilesList.map(File::getAbsolutePath).sorted().joinToString(","))
+                    add("--pkg_for_generated_classes")
+                    add(this@GenerateDslTask.packageName.get())
+                    add("--generated_directory")
+                    add(outputDirectory.get().asFile.absolutePath)
+                    if (this@GenerateDslTask.useBytecode.get()) {
+                        add("--use_bytecode")
+                    }
+                }
             }
         }
     }

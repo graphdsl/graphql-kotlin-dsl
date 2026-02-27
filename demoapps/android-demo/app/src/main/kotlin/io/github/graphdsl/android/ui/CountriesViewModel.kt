@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.graphdsl.android.data.Country
 import io.github.graphdsl.android.data.CountriesRepository
+import io.github.graphdsl.android.graphql.query
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,7 +31,18 @@ class CountriesViewModel : ViewModel() {
             _state.value = CountriesState.Loading
             runCatching { repository.fetchCountries() }
                 .onSuccess { countries ->
-                    _state.value = CountriesState.Success(countries, repository.generatedQuery)
+                    _state.value = CountriesState.Success(countries, query {
+                        countries {
+                            code
+                            name
+                            capital
+                            emoji
+                            currency
+                            continent {
+                                name
+                            }
+                        }
+                    })
                 }
                 .onFailure { e ->
                     _state.value = CountriesState.Error(e.message ?: "Unknown error")

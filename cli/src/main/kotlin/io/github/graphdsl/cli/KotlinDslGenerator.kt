@@ -2,11 +2,13 @@ package io.github.graphdsl.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.options.split
 import com.github.ajalt.clikt.parameters.types.file
 import io.github.graphdsl.codegen.DslFilesBuilder
+import io.github.graphdsl.codegen.bytecode.DslClassesBuilder
 import io.github.graphdsl.codegen.ZipUtil.zipAndWriteDirectories
 import io.github.graphdsl.mapper.GJSchemaRaw
 import io.github.graphdsl.codegen.GraphDSLBaseTypeMapper
@@ -46,6 +48,9 @@ class KotlinDslGenerator : CliktCommand() {
     private val pkgForGeneratedClasses: String by option("--pkg_for_generated_classes")
         .default("io.github.graphdsl.dsl")
 
+    private val useBytecode: Boolean by option("--use_bytecode")
+        .flag(default = false)
+
     override fun run() {
         if (generatedDir.exists()) generatedDir.deleteRecursively()
         generatedDir.mkdirs()
@@ -57,13 +62,19 @@ class KotlinDslGenerator : CliktCommand() {
 
         val baseTypeMapper = GraphDSLBaseTypeMapper(schema)
 
-        val dslBuilder = DslFilesBuilder(
-            pkg = pkgForGeneratedClasses,
-            outputDir = generatedDir,
-            baseTypeMapper = baseTypeMapper
-        )
-
-        dslBuilder.generate(schema)
+        if (useBytecode) {
+            DslClassesBuilder(
+                pkg = pkgForGeneratedClasses,
+                outputDir = generatedDir,
+                baseTypeMapper = baseTypeMapper,
+            ).generate(schema)
+        } else {
+            DslFilesBuilder(
+                pkg = pkgForGeneratedClasses,
+                outputDir = generatedDir,
+                baseTypeMapper = baseTypeMapper,
+            ).generate(schema)
+        }
 
         outputArchive?.let {
             it.zipAndWriteDirectories(generatedDir)

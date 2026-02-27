@@ -1,12 +1,13 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("io.github.graphdsl.graphdsl-gradle-plugin") version "0.1.1"
+    id("io.github.graphdsl.graphdsl-gradle-plugin") version "0.1.2"
 }
 
 graphDsl {
     packageName.set("io.github.graphdsl.android.graphql")
     schemaDir.set("src/main/graphql")
+    useBytecode.set(true)
 }
 
 android {
@@ -39,24 +40,20 @@ android {
         jvmTarget = "17"
     }
 
-    // The graphdsl plugin auto-wires sources for kotlin.jvm only.
-    // Android uses kotlin.android, so we wire the generated sources manually.
-    sourceSets {
-        getByName("main") {
-            java.srcDir("build/generated-sources/graphdsl")
-        }
-    }
 }
 
 
-// Make Android Kotlin compile tasks depend on DSL generation
+// The graphdsl plugin registers a `packageGraphDslClasses` task in bytecode mode, but
+// AGP resolves dependency configurations before afterEvaluate fires, so we wire it here.
 tasks.configureEach {
     if (name.startsWith("compile") && name.endsWith("Kotlin")) {
-        dependsOn("generateGraphDsl")
+        dependsOn("packageGraphDslClasses")
     }
 }
 
 dependencies {
+    implementation(files(tasks.named<org.gradle.api.tasks.bundling.Jar>("packageGraphDslClasses").flatMap { it.archiveFile }))
+
     val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
     implementation(composeBom)
 

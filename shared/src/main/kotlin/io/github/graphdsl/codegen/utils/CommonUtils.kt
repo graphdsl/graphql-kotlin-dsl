@@ -26,6 +26,7 @@ object Km {
     val LIST = KmName("kotlin/collections/List")
     val LONG = KmName("kotlin/Long")
     val MAP = KmName("kotlin/collections/Map")
+    val MUTABLE_LIST = KmName("kotlin/collections/MutableList")
     val MUTABLE_MAP = KmName("kotlin/collections/MutableMap")
     val SHORT = KmName("kotlin/Short")
     val STRING = KmName("kotlin/String")

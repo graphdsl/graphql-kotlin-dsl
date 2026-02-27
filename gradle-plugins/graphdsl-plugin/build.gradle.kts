@@ -6,6 +6,9 @@ plugins {
     id("conventions.graphdsl-publishing")
 }
 
+// Declare functional test source set before gradlePlugin block references it
+val functionalTest by sourceSets.creating
+
 java {
     withSourcesJar()
     withJavadocJar()
@@ -19,10 +22,17 @@ dependencies {
     // Do NOT leak the Kotlin Gradle Plugin at runtime
     compileOnly(libs.kotlin.gradle.plugin)
 
-    // Testing
+    // Unit tests
     testImplementation(libs.kotlin.test)
     testImplementation(libs.junit)
     testRuntimeOnly(libs.junit.engine)
+
+    // Functional (E2E) tests via Gradle TestKit
+    "functionalTestImplementation"(gradleTestKit())
+    "functionalTestImplementation"(libs.kotlin.test)
+    "functionalTestImplementation"(libs.junit)
+    "functionalTestRuntimeOnly"(libs.junit.engine)
+    "functionalTestRuntimeOnly"(libs.junit.launcher)
 }
 
 tasks.jar {
@@ -38,6 +48,9 @@ gradlePlugin {
     website = "https://github.com/graphdsl/graphdsl"
     vcsUrl = "https://github.com/graphdsl/graphdsl"
 
+    // Injects plugin-under-test-metadata.properties so withPluginClasspath() works
+    testSourceSets(functionalTest)
+
     plugins {
         create("graphDsl") {
             id = "$group.graphdsl-gradle-plugin"
@@ -48,6 +61,16 @@ gradlePlugin {
         }
     }
 }
+
+val functionalTestTask = tasks.register<Test>("functionalTest") {
+    description = "Runs E2E functional tests using Gradle TestKit."
+    group = "verification"
+    testClassesDirs = sourceSets["functionalTest"].output.classesDirs
+    classpath = sourceSets["functionalTest"].runtimeClasspath
+    useJUnitPlatform()
+}
+
+tasks.check { dependsOn(functionalTestTask) }
 
 graphDslPublishing {
     name.set("GraphDSL Gradle Plugin")

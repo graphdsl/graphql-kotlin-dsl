@@ -54,12 +54,46 @@ class KmPropertyBuilder(
     private val getterAnnotations: MutableSet<Pair<KmAnnotation, Boolean>> = mutableSetOf()
     private val setterAnnotations: MutableSet<Pair<KmAnnotation, Boolean>> = mutableSetOf()
 
-    internal fun static(static: Boolean): KmPropertyBuilder {
+    // =========================================================================
+    // Public fluent setter methods
+    // =========================================================================
+
+    fun getterBody(body: String): KmPropertyBuilder {
+        this.getterBody = body
+        return this
+    }
+
+    fun getterVisibility(vis: Visibility): KmPropertyBuilder {
+        this.getterVisibility = vis
+        return this
+    }
+
+    fun setterBody(body: String): KmPropertyBuilder {
+        this.setterBody = body
+        return this
+    }
+
+    fun setterVisibility(vis: Visibility): KmPropertyBuilder {
+        this.setterVisibility = vis
+        return this
+    }
+
+    fun modality(m: Modality): KmPropertyBuilder {
+        this.propertyModality = m
+        return this
+    }
+
+    fun hasConstantValue(v: Boolean): KmPropertyBuilder {
+        this.hasConstantValue = v
+        return this
+    }
+
+    fun static(static: Boolean): KmPropertyBuilder {
         this.static = static
         return this
     }
 
-    internal fun build(): KmPropertyWrapper {
+    fun build(): KmPropertyWrapper {
         inputType.isInputTypeFor(type)?.let {
             throw IllegalArgumentException("${inputType.name} isn't input type for ${type.name} ($it).")
         }

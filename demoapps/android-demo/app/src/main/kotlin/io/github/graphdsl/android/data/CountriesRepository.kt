@@ -24,20 +24,21 @@ class CountriesRepository {
 
     private val client = OkHttpClient()
 
-    val generatedQuery: String = query {
-        countries {
-            code
-            name
-            capital
-            emoji
-            currency
-            continent {
-                name
-            }
-        }
-    }
+
 
     suspend fun fetchCountries(): List<Country> = withContext(Dispatchers.IO) {
+        val generatedQuery: String = query {
+            countries {
+                code
+                name
+                capital
+                emoji
+                currency
+                continent {
+                    name
+                }
+            }
+        }
         val body = JSONObject()
             .put("query", generatedQuery)
             .toString()

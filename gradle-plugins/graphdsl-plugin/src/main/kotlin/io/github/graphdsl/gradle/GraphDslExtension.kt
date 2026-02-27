@@ -27,4 +27,11 @@ open class GraphDslExtension(objects: ObjectFactory) {
      */
     val schemaDir: Property<String> = objects.property(String::class.java)
         .convention("src/main/graphql")
+
+    /**
+     * Whether to generate `.class` bytecode files directly instead of `.kt` source files.
+     * Defaults to false (source generation via StringTemplate).
+     */
+    val useBytecode: Property<Boolean> = objects.property(Boolean::class.java)
+        .convention(false)
 }

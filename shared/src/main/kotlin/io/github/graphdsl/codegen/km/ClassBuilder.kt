@@ -6,5 +6,5 @@ import io.github.graphdsl.codegen.ct.KmClassTree
  *  clients.  Subclasses allow those clients to populate a ClassBuilder
  *  but not to actually build one themselves - that's done internally. */
 abstract class ClassBuilder {
-    internal abstract fun build(): KmClassTree
+    abstract fun build(): KmClassTree
 }

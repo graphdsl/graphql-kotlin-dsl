@@ -5,12 +5,13 @@ import io.github.graphdsl.codegen.utils.Km
 import io.github.graphdsl.codegen.utils.KmName
 import kotlinx.metadata.*
 
-class CustomClassBuilder internal constructor(
+class CustomClassBuilder constructor(
     private val kmKind: ClassKind,
     val kmName: KmName,
     private val classAnnotations: Set<Pair<KmAnnotation, Boolean>> = emptySet(),
     private val isNested: Boolean = false,
     private val isDataClass: Boolean = false,
+    private val isOpen: Boolean = false,
     private val tier: Int = 1
 ) : ClassBuilder() {
     val kmType = kmName.asType()
@@ -31,6 +32,44 @@ class CustomClassBuilder internal constructor(
         }
     }
 
+    // =========================================================================
+    // Public fluent add* methods
+    // =========================================================================
+
+    fun addSupertype(type: KmType): CustomClassBuilder {
+        supertypes.add(type)
+        return this
+    }
+
+    fun addConstructor(wrapper: KmConstructorWrapper): CustomClassBuilder {
+        constructors.add(wrapper)
+        return this
+    }
+
+    fun addFunction(wrapper: KmFunctionWrapper): CustomClassBuilder {
+        functions.add(wrapper)
+        return this
+    }
+
+    fun addProperty(wrapper: KmPropertyWrapper): CustomClassBuilder {
+        properties.add(wrapper)
+        return this
+    }
+
+    fun addNestedClass(builder: CustomClassBuilder): CustomClassBuilder {
+        nestedClasses.add(builder)
+        return this
+    }
+
+    fun addEnumEntry(name: String): CustomClassBuilder {
+        enumEntries.add(name)
+        return this
+    }
+
+    // =========================================================================
+    // Build
+    // =========================================================================
+
     override fun build(): KmClassTree = buildInternal(null)
 
     private fun buildInternal(containingClass: KmClassWrapper?): KmClassTree {
@@ -46,7 +85,11 @@ class CustomClassBuilder internal constructor(
             KmClass().also { it ->
                 it.name = kmName.toString()
                 it.visibility = Visibility.PUBLIC
-                it.modality = if (kmKind == ClassKind.INTERFACE) Modality.ABSTRACT else Modality.FINAL
+                it.modality = when {
+                    kmKind == ClassKind.INTERFACE -> Modality.ABSTRACT
+                    isOpen -> Modality.OPEN
+                    else -> Modality.FINAL
+                }
                 it.kind = kmKind
                 it.hasAnnotations = classAnnotations.isNotEmpty()
                 it.isData = isDataClass
@@ -107,6 +150,46 @@ class CustomClassBuilder internal constructor(
                 },
                 body = "{}"
             )
+        )
+    }
+
+    // =========================================================================
+    // Companion factory methods
+    // =========================================================================
+
+    companion object {
+        /**
+         * Creates a builder for a regular Kotlin class.
+         *
+         * @param kmName The KmName of the class
+         * @param isOpen True to make the class open (extensible), false for final
+         * @param isNested True if this is a nested class inside another class
+         */
+        fun classBuilder(
+            kmName: KmName,
+            isOpen: Boolean = false,
+            isNested: Boolean = false,
+        ): CustomClassBuilder = CustomClassBuilder(
+            kmKind = ClassKind.CLASS,
+            kmName = kmName,
+            isNested = isNested,
+            isOpen = isOpen,
+        )
+
+        /**
+         * Creates a builder for a Kotlin object (singleton).
+         */
+        fun objectBuilder(kmName: KmName): CustomClassBuilder = CustomClassBuilder(
+            kmKind = ClassKind.OBJECT,
+            kmName = kmName,
+        )
+
+        /**
+         * Creates a builder for a Kotlin interface.
+         */
+        fun interfaceBuilder(kmName: KmName): CustomClassBuilder = CustomClassBuilder(
+            kmKind = ClassKind.INTERFACE,
+            kmName = kmName,
         )
     }
 }
