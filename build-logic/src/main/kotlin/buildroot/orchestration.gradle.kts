@@ -66,8 +66,6 @@ private fun Project.tasksNamedInSubprojects(name: String): List<Any> =
 private fun <T : Task> Project.tasksOfTypeInSubprojects(type: Class<T>): List<Any> =
     subprojects.map { sp -> sp.tasks.withType(type) }
 
-private fun Project.tasksStartingWithInSubprojects(prefix: String): List<Any> =
-    subprojects.map { sp -> sp.tasks.matching { it.name.startsWith(prefix) } }
 
 private fun Project.participatingIncludedBuilds(): List<IncludedBuild> {
     val wanted = orchestration.participatingIncludedBuilds.get()

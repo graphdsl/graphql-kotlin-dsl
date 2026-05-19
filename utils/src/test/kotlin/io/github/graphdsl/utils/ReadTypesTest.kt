@@ -22,7 +22,7 @@ class ReadTypesFromFilesTest {
         """)
         val registry = readTypesFromFiles(listOf(schema))
         assertNotNull(registry)
-        assertTrue(registry.getType("Query").isPresent)
+        assertTrue(registry.types().containsKey("Query"))
     }
 
     @Test
@@ -39,8 +39,8 @@ class ReadTypesFromFilesTest {
             }
         """)
         val registry = readTypesFromFiles(listOf(schema1, schema2))
-        assertTrue(registry.getType("Query").isPresent)
-        assertTrue(registry.getType("User").isPresent)
+        assertTrue(registry.types().containsKey("Query"))
+        assertTrue(registry.types().containsKey("User"))
     }
 
     @Test
@@ -62,9 +62,9 @@ class ReadTypesFromFilesTest {
             }
         """)
         val registry = readTypesFromFiles(listOf(schema))
-        assertTrue(registry.getType("Role").isPresent)
-        assertTrue(registry.getType("CreateUserInput").isPresent)
-        assertTrue(registry.getType("Mutation").isPresent)
+        assertTrue(registry.types().containsKey("Role"))
+        assertTrue(registry.types().containsKey("CreateUserInput"))
+        assertTrue(registry.types().containsKey("Mutation"))
     }
 
     @Test
@@ -84,7 +84,7 @@ class ReadTypesFromFilesTest {
             }
         """)
         val registry = readTypesFromFiles(listOf(schema))
-        assertTrue(registry.getType("Node").isPresent)
-        assertTrue(registry.getType("User").isPresent)
+        assertTrue(registry.types().containsKey("Node"))
+        assertTrue(registry.types().containsKey("User"))
     }
 }

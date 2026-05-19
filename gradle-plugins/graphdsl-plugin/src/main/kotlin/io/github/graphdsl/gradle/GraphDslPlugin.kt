@@ -1,12 +1,12 @@
 package io.github.graphdsl.gradle
 
+import io.github.graphdsl.gradle.GraphDslPluginCommon
+import io.github.graphdsl.gradle.GraphDslPluginCommon.configureIdeaIntegration
 import io.github.graphdsl.gradle.task.GenerateDslTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.register
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import io.github.graphdsl.gradle.GraphDslPluginCommon
-import io.github.graphdsl.gradle.GraphDslPluginCommon.configureIdeaIntegration
 
 /**
  * Gradle plugin that generates type-safe Kotlin DSL query builders from GraphQL schema.
@@ -34,53 +34,57 @@ import io.github.graphdsl.gradle.GraphDslPluginCommon.configureIdeaIntegration
  * 3. Automatically add the generated sources to the Kotlin `main` source set
  */
 class GraphDslPlugin : Plugin<Project> {
-    override fun apply(project: Project): Unit = with(project) {
-        val ext = extensions.create("graphDsl", GraphDslExtension::class.java, objects)
+    override fun apply(project: Project): Unit =
+        with(project) {
+            val ext = extensions.create("graphDsl", GraphDslExtension::class.java, objects)
 
-        val pluginClasspath = files(
-            GraphDslPluginCommon.getClassPathElements(this@GraphDslPlugin::class.java)
-        )
-
-        val generateDslTask = tasks.register<GenerateDslTask>("generateGraphDsl") {
-            mainClass.set(CODEGEN_MAIN_CLASS)
-            classpath.setFrom(pluginClasspath)
-            schemaFiles.setFrom(
-                ext.schemaDir.map { dir ->
-                    fileTree(layout.projectDirectory.dir(dir)) { include("**/*.graphqls") }
-                }
-            )
-            packageName.set(ext.packageName)
-            outputDirectory.set(layout.buildDirectory.dir("generated-sources/graphdsl"))
-        }
-
-        // Wire generated sources into Kotlin compilation
-        pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-            val kotlinExt = extensions.getByType(KotlinJvmProjectExtension::class.java)
-            kotlinExt.sourceSets.named("main") {
-                kotlin.srcDir(generateDslTask.flatMap { it.outputDirectory })
-            }
-        }
-
-        // Wire into Java compilation if Kotlin plugin isn't applied
-        pluginManager.withPlugin("java") {
-            if (!pluginManager.hasPlugin("org.jetbrains.kotlin.jvm")) {
-                val sourceSets = extensions.getByType(
-                    org.gradle.api.tasks.SourceSetContainer::class.java
+            val pluginClasspath =
+                files(
+                    GraphDslPluginCommon.getClassPathElements(this@GraphDslPlugin::class.java),
                 )
-                sourceSets.named("main") {
-                    java.srcDir(generateDslTask.flatMap { it.outputDirectory })
+
+            val generateDslTask =
+                tasks.register<GenerateDslTask>("generateGraphDsl") {
+                    mainClass.set(CODEGEN_MAIN_CLASS)
+                    classpath.setFrom(pluginClasspath)
+                    schemaFiles.setFrom(
+                        ext.schemaDir.map { dir ->
+                            fileTree(layout.projectDirectory.dir(dir)) { include("**/*.graphqls") }
+                        },
+                    )
+                    packageName.set(ext.packageName)
+                    outputDirectory.set(layout.buildDirectory.dir("generated-sources/graphdsl"))
+                }
+
+            // Wire generated sources into Kotlin compilation
+            pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+                val kotlinExt = extensions.getByType(KotlinJvmProjectExtension::class.java)
+                kotlinExt.sourceSets.named("main") {
+                    kotlin.srcDir(generateDslTask.flatMap { it.outputDirectory })
                 }
             }
-        }
 
-        // Make compile tasks depend on generation
-        tasks.matching { it.name == "compileKotlin" || it.name == "compileJava" }.configureEach {
-            dependsOn(generateDslTask)
-        }
+            // Wire into Java compilation if Kotlin plugin isn't applied
+            pluginManager.withPlugin("java") {
+                if (!pluginManager.hasPlugin("org.jetbrains.kotlin.jvm")) {
+                    val sourceSets =
+                        extensions.getByType(
+                            org.gradle.api.tasks.SourceSetContainer::class.java,
+                        )
+                    sourceSets.named("main") {
+                        java.srcDir(generateDslTask.flatMap { it.outputDirectory })
+                    }
+                }
+            }
 
-        // IDE integration
-        configureIdeaIntegration(generateDslTask)
-    }
+            // Make compile tasks depend on generation
+            tasks.matching { it.name == "compileKotlin" || it.name == "compileJava" }.configureEach {
+                dependsOn(generateDslTask)
+            }
+
+            // IDE integration
+            configureIdeaIntegration(generateDslTask)
+        }
 
     companion object {
         private const val CODEGEN_MAIN_CLASS = "io.github.graphdsl.cli.KotlinDslGenerator\$Main"

@@ -81,10 +81,10 @@ val KmType.kotlinTypeString: String get() {
 
 // Property-related utilities
 
-fun getterName(propertyName: String): String = if (startsWithIs(propertyName)) propertyName else "get${propertyName.capitalize()}"
+fun getterName(propertyName: String): String = if (startsWithIs(propertyName)) propertyName else "get${propertyName.replaceFirstChar { it.uppercaseChar() }}"
 
 fun setterName(propertyName: String): String {
-    val setName = if (startsWithIs(propertyName)) propertyName.drop(2) else propertyName.capitalize()
+    val setName = if (startsWithIs(propertyName)) propertyName.drop(2) else propertyName.replaceFirstChar { it.uppercaseChar() }
     return "set$setName"
 }
 

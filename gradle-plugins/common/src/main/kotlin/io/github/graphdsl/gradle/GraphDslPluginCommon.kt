@@ -1,15 +1,14 @@
 package io.github.graphdsl.gradle
 
-import java.io.File
-import java.net.URLClassLoader
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.gradle.ext.settings
 import org.jetbrains.gradle.ext.taskTriggers
+import java.io.File
+import java.net.URLClassLoader
 
 object GraphDslPluginCommon {
-
     /**
      * Extracts the classpath elements from the classloader of the given anchor class.
      * Used to pass the plugin's classpath to JavaExec tasks for codegen.
