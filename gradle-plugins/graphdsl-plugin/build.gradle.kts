@@ -1,8 +1,10 @@
+import org.gradle.plugin.compatibility.compatibility
+
 plugins {
     `kotlin-dsl`
     id("conventions.kotlin")
     id("conventions.kotlin-static-analysis")
-    id("com.gradle.plugin-publish") version "2.0.0"
+    id("com.gradle.plugin-publish") version "2.1.1"
     id("conventions.graphdsl-publishing")
 }
 
@@ -45,6 +47,11 @@ gradlePlugin {
             displayName = "GraphDSL :: Gradle Plugin"
             description = "Generates type-safe Kotlin DSL query builders from GraphQL schema."
             tags.set(listOf("graphql", "kotlin", "dsl", "codegen"))
+            compatibility {
+                features {
+                    configurationCache = false
+                }
+            }
         }
     }
 }
