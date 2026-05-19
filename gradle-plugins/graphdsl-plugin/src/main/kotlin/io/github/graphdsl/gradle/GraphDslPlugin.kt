@@ -1,6 +1,5 @@
 package io.github.graphdsl.gradle
 
-import io.github.graphdsl.gradle.GraphDslPluginCommon
 import io.github.graphdsl.gradle.GraphDslPluginCommon.configureIdeaIntegration
 import io.github.graphdsl.gradle.task.GenerateDslTask
 import org.gradle.api.Plugin

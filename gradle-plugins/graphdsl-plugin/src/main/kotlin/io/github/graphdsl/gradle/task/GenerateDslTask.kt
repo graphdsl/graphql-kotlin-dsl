@@ -18,7 +18,7 @@ import javax.inject.Inject
 /**
  * Gradle task that generates Kotlin DSL query builders from GraphQL schema files.
  *
- * Invokes [graphdsl.cli.KotlinDslGenerator] via JavaExec with the plugin's classpath.
+ * Invokes [io.github.graphdsl.cli.KotlinDslGenerator] via JavaExec with the plugin's classpath.
  */
 @CacheableTask
 abstract class GenerateDslTask

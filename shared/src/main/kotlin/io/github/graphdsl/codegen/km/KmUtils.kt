@@ -6,15 +6,8 @@ package io.github.graphdsl.codegen.km
 import kotlinx.metadata.KmClassifier
 import kotlinx.metadata.KmType
 import kotlinx.metadata.KmTypeProjection
-import kotlinx.metadata.KmValueParameter
 import kotlinx.metadata.KmVariance
 import kotlinx.metadata.isNullable
-import io.github.graphdsl.codegen.ct.isJavaPrimitive
-import io.github.graphdsl.codegen.ct.javaTypeName
-import io.github.graphdsl.codegen.ct.kmToJvmBoxedName
-import io.github.graphdsl.codegen.utils.JavaName
-import io.github.graphdsl.codegen.utils.Km
-import io.github.graphdsl.codegen.utils.KmName
 import io.github.graphdsl.codegen.utils.name
 
 /** Make sure an input type is correct and within the bounds we are currently able
