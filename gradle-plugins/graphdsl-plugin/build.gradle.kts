@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.kotlin.gradle.plugin)
 
     // Testing
+    testImplementation(gradleTestKit())
     testImplementation(libs.kotlin.test)
     testImplementation(libs.junit)
     testRuntimeOnly(libs.junit.engine)

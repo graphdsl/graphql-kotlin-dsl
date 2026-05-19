@@ -1,5 +1,5 @@
- plugins {
-    id("conventions.kotlin-without-tests")
+plugins {
+    id("conventions.kotlin")
 }
 
 dependencies {
