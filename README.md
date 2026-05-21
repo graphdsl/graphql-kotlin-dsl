@@ -24,11 +24,7 @@ plugins {
 }
 ```
 
-Place your `.graphqls` schema in `src/main/graphql/`, then run:
-
-```bash
-./gradlew generateGraphDsl
-```
+Place your `.graphqls` schema in `src/main/graphql/`, then build you project.
 
 Generated sources land in `build/generated-sources/graphdsl/` and are wired into compilation automatically.
 
