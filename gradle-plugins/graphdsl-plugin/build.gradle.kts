@@ -1,4 +1,5 @@
 import org.gradle.api.component.AdhocComponentWithVariants
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.plugin.compatibility.compatibility
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
@@ -57,9 +58,17 @@ tasks.named<ShadowJar>("shadowJar") {
     }
 }
 
-// Publish the shadow (fat) JAR; keep the thin jar only for local use
+// Shadow JAR is the primary artifact — rename regular jar so it doesn't conflict
 tasks.named<Jar>("jar") {
-    archiveClassifier.set("thin")
+    archiveClassifier.set("original")
+}
+
+// Ensure shadow JAR is always built (assemble + all publish tasks depend on it)
+tasks.assemble {
+    dependsOn(tasks.named("shadowJar"))
+}
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(tasks.named("shadowJar"))
 }
 
 // Wire shadow JAR into the variants used by Maven publishing
