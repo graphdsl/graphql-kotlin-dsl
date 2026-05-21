@@ -29,3 +29,6 @@ includeBuild("gradle-plugins") {
         substitute(module("io.github.graphdsl:graphdsl-gradle-plugin")).using(project(":graphdsl-plugin"))
     }
 }
+
+// Integration tests — exercises the full codegen pipeline against real generated DSL code
+includeBuild("included-builds/integration")

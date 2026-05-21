@@ -1,0 +1,32 @@
+type Query {
+    product(id: ID!): Product
+    products(filter: ProductFilterInput!): [Product!]!
+    greeting: String
+}
+
+type Mutation {
+    createProduct(input: CreateProductInput!): Product
+    deleteProduct(id: ID!): Boolean
+}
+
+type Product {
+    id: ID!
+    name: String!
+    available: Boolean!
+    category: Category!
+}
+
+type Category {
+    id: ID!
+    name: String!
+}
+
+input ProductFilterInput {
+    categoryId: ID
+    available: Boolean
+}
+
+input CreateProductInput {
+    name: String!
+    categoryId: ID!
+}

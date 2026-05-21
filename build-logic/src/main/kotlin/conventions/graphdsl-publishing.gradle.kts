@@ -45,7 +45,7 @@ afterEvaluate {
             name.set(resolvedName)
             if (resolvedDescription.isNotBlank()) description.set(resolvedDescription) else description.set("GraphDSL library $resolvedArtifactId")
 
-            url.set("https://github.com/graphdsl/graphdsl")
+            url.set("https://github.com/graphdsl/graphql-kotlin-dsl")
             licenses { license {
                 name.set("Apache License, Version 2.0")
                 url.set("https://www.apache.org/licenses/LICENSE-2.0")
@@ -55,9 +55,9 @@ afterEvaluate {
                 email.set("mkristileka@gmail.com")
             }}
             scm {
-                connection.set("scm:git:git://github.com/graphdsl/graphdsl.git")
-                developerConnection.set("scm:git:ssh://github.com/graphdsl/graphdsl.git")
-                url.set("https://github.com/graphdsl/graphdsl")
+                connection.set("scm:git:git://github.com/graphdsl/graphql-kotlin-dsl.git")
+                developerConnection.set("scm:git:ssh://github.com/graphdsl/graphql-kotlin-dsl.git")
+                url.set("https://github.com/graphdsl/graphql-kotlin-dsl")
             }
         }
     }

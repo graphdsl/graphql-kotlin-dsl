@@ -38,8 +38,8 @@ tasks.jar {
 }
 
 gradlePlugin {
-    website = "https://github.com/graphdsl/graphdsl"
-    vcsUrl = "https://github.com/graphdsl/graphdsl"
+    website = "https://github.com/graphdsl/graphql-kotlin-dsl"
+    vcsUrl = "https://github.com/graphdsl/graphql-kotlin-dsl"
 
     plugins {
         create("graphDsl") {

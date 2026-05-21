@@ -4,5 +4,5 @@ plugins {
 }
 
 orchestration {
-    participatingIncludedBuilds.set(listOf("core", "gradle-plugins"))
+    participatingIncludedBuilds.set(listOf("core", "gradle-plugins", "integration"))
 }

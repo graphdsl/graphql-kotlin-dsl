@@ -30,6 +30,12 @@
                   <project path="$PROJECT_DIR$/gradle-plugins/graphdsl-plugin" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/included-builds/integration" name="integration">
+                <projects>
+                  <project path="$PROJECT_DIR$/included-builds/integration" />
+                  <project path="$PROJECT_DIR$/included-builds/integration/integration-tests" />
+                </projects>
+              </build>
             </builds>
           </compositeBuild>
         </compositeConfiguration>
@@ -45,6 +51,8 @@
             <option value="$PROJECT_DIR$/gradle-plugins/common" />
             <option value="$PROJECT_DIR$/gradle-plugins/graphdsl-plugin" />
             <option value="$PROJECT_DIR$/included-builds/core" />
+            <option value="$PROJECT_DIR$/included-builds/integration" />
+            <option value="$PROJECT_DIR$/included-builds/integration/integration-tests" />
             <option value="$PROJECT_DIR$/mapper" />
             <option value="$PROJECT_DIR$/schema" />
             <option value="$PROJECT_DIR$/shared" />
