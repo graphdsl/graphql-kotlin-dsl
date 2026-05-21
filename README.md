@@ -30,7 +30,7 @@ Generated sources land in `build/generated-sources/graphdsl/` and are wired into
 
 ## Documentation
 
-Full docs — configuration reference, CLI usage, module overview, and Android setup — are on the [project wiki](../../wiki).
+Full docs — configuration reference, CLI usage, and module overview — are at [graphdsl.github.io](https://graphdsl.github.io).
 
 ## License
 
