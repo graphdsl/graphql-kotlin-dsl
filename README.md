@@ -146,6 +146,3 @@ cd demoapps/blog-demo
 ./gradlew test
 ```
 
-## License
-
-MIT
